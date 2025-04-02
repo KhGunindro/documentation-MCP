@@ -14,8 +14,7 @@ SERPER_URL = "https://google.serper.dev/search"
 
 docs_urls = {
     "react" : "https://react.dev/learn",
-    "vue" : "https://vuejs.org/guide/introduction",
-    "angular" : "https://angular.dev/overview",
+    "vite" : "https://vuejs.org/guide/introduction",
     "tailwind" : "https://tailwindcss.com/docs/installation/using-vite",
     "shadcn" : "https://ui.shadcn.com/docs/installation"
 }   
@@ -72,10 +71,11 @@ async def get_docs(query: str, library: str):
     results = await search_web(query)
     if len(results["organic"]) == 0:
         return "No results found"
-    text = ""
-    for result in results["organic"]:
-        text += await fetch_url(result["link"])
-        return text
+    
+    # text = ""
+    # for result in results["organic"]:
+    #     text += await fetch_url(result["link"])
+    #     return text
     
 
 
