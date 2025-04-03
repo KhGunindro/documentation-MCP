@@ -21,7 +21,7 @@ docs_urls = {
 
 # 1
 async def search_web(query: str) -> dict | None:
-   payload = json.dump({"q":query, "num":2})
+   payload = json.dumps({"q":query, "num":2})
 
    headers = {
         "X-API-KEY": os.getenv("SERPER_API_KEY"),
@@ -43,7 +43,7 @@ async def search_web(query: str) -> dict | None:
 async def fetch_url(url: str):
     async with httpx.AsyncClient() as Client:
         try: 
-            response = await Client.get(SERPER_URL, timeout=30.0)
+            response = await Client.get(url, timeout=30.0)
             soup = BeautifulSoup(response.text, "html.parser")
             text = soup.get_text()
             return text
@@ -51,7 +51,7 @@ async def fetch_url(url: str):
             return "Timeout error"
 
 # This will convert the function definition to a tool which the mcp server can use
-@mcp.tool
+@mcp.tool()
 async def get_docs(query: str, library: str):
     """
     Get the lastests documentation for a given library and query.
@@ -69,7 +69,7 @@ async def get_docs(query: str, library: str):
     
     query = f"site:{docs_urls[library]} {query}"
     results = await search_web(query)
-    if len(results["organic"]) == 0:
+    if len(results["organic"]) == 1:
         return "No results found"
     
     # text = ""
